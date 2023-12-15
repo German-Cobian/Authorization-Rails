@@ -7,4 +7,7 @@ class User < ApplicationRecord
 
   validates :email, presence: true
   validates :password, presence: true
+
+  enum is_enabled: { disabled: false, enabled: true }
+
 end
