@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
+  include RackSessionsFix
   respond_to :json
-  
+
   private
 
   def respond_with(resource, _opts = {})
