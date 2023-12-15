@@ -9,5 +9,9 @@ class User < ApplicationRecord
   validates :password, presence: true
 
   enum is_enabled: { disabled: false, enabled: true }
+  enum role: %i[user admin]
 
+  def set_default_role
+    self.role ||= :user
+  end
 end
