@@ -6,7 +6,10 @@ class User < ApplicationRecord
   :jwt_authenticatable, jwt_revocation_strategy: self
 
   validates :email, presence: true
-  validates :password, presence: true
+  with_options presence: true do
+    validates :password, on: :create
+  end
+ 
 
   enum is_enabled: { disabled: false, enabled: true }
   enum role: %i[user admin]
@@ -14,4 +17,7 @@ class User < ApplicationRecord
   def set_default_role
     self.role ||= :user
   end
+
+ 
+
 end

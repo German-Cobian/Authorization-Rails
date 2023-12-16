@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-
+ 
   def index
     @users = User.all
 
@@ -27,6 +27,21 @@ class UsersController < ApplicationController
     end
   end
 
+  def update
+    
+    if current_user.admin?
+      @user = User.find_by(id: params[:id])
+
+      if @user.update(user_params)
+        render json: UserSerializer.new(@user).serializable_hash[:data][:attributes], status: :created
+      else
+        render json: @user.errors, status: :unprocessable_entity
+      end
+    else
+      render json: { message: 'You are not authorized to perform this action' }, status: :unauthorized
+    end
+  end
+
   def destroy
     user = User.find_by(id: params[:id])
 
@@ -41,6 +56,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:email, :password, :is_enabled, :role)
+    params.require(:user).permit(:email, :is_enabled, :role, :password)
   end
 end
