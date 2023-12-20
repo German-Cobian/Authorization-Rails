@@ -16,6 +16,7 @@ class User < ApplicationRecord
   enum role: %i[user admin]
 
   scope :all_except, -> (user) { where.not(id: user) }
+  has_many :messages
 
   def set_default_role
     self.role ||= :user

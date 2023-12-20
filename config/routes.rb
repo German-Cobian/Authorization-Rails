@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   }
 
   resources :users, only: [:index, :show, :create, :update, :destroy]
-  resources :rooms, only: [ :index, :create ]
+  
+  resources :rooms do
+    resources :messages
+  end
   
 end

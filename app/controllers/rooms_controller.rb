@@ -6,12 +6,19 @@ class RoomsController < ApplicationController
     @rooms = Room.public_rooms
     @users = User.all_except(current_user)
 
-
     render json: { room: @room, rooms: @rooms, users: @users }
+  end
+
+  def show
+    @single_room = Room.find(params[:id])
+    @messages = @single_room.messages
+
+    render json: { messages: @messages }
   end
 
   def create
     @room = Room.create(room_params)
+    render json: { room: @room }
   end
 
   private
