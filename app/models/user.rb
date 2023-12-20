@@ -6,18 +6,19 @@ class User < ApplicationRecord
   :jwt_authenticatable, jwt_revocation_strategy: self
 
   validates :email, presence: true
+
+  # password is validated only upon creation
   with_options presence: true do
     validates :password, on: :create
   end
  
-
   enum is_enabled: { disabled: false, enabled: true }
   enum role: %i[user admin]
+
+  scope :all_except, -> (user) { where.not(id: user) }
 
   def set_default_role
     self.role ||= :user
   end
-
- 
 
 end
