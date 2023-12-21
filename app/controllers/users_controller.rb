@@ -9,12 +9,22 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @users = User.all_except(current_user)
+    @room = Room.new
+    @rooms = Room.public_rooms
+    @private_rooms = Room.private_rooms
+    
+    @message = Message.new
 
-    if @user.nil?
-      render status: 404, json: { error: 'User not found' }.to_json
-    else
-      render json: UserSerializer.new(@user).serializable_hash[:data][:attributes], status: :ok
-    end
+
+    render json: {
+      user: UserSerializer.new(@user).serializable_hash[:data][:attributes],
+      users: @users.as_json(only: [:id, :email]),
+      rooms: @rooms.as_json(include: [:messages]), 
+      private_rooms: @private_rooms.as_json(include: [:messages]),
+	   
+	   
+    }, status: :ok
   end
 
   def create
@@ -58,4 +68,7 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:email, :is_enabled, :role, :password)
   end
+
+
+
 end
