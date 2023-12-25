@@ -12,8 +12,9 @@ Rails.application.routes.draw do
   }
 
   resources :users, only: [:index, :show, :create, :update, :destroy]
-  
+
   resources :rooms do
+    resources :participants, only: [ :index, :create ]
     resources :messages
   end
   

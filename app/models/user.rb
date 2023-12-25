@@ -5,6 +5,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable,
   :jwt_authenticatable, jwt_revocation_strategy: self
 
+  has_many :rooms, dependent: :destroy
+  has_many :messages
+
   validates :email, presence: true
 
   # password is validated only upon creation
@@ -16,7 +19,7 @@ class User < ApplicationRecord
   enum role: %i[user admin]
 
   scope :all_except, -> (user) { where.not(id: user) }
-  has_many :messages
+ 
 
   def set_default_role
     self.role ||= :user
