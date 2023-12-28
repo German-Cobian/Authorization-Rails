@@ -16,5 +16,6 @@ Rails.application.routes.draw do
 
   resources :rooms do
     resources :participants, only: [:index, :create]
+    resources :messages, only: [ :index, :create ]
   end
 end
