@@ -17,7 +17,10 @@ class RoomsController < ApplicationController
     @room = current_user.rooms.build(room_params)
 
     if @room.save
-      render json: { room: @room }
+      # Automatically make the creator a participant
+      @participant = @room.participants.create(user: current_user)
+
+      render json: { room: @room, participant: @participant}
     else
       render json: { error: 'Failed to create room' }, status: :unprocessable_entity
     end
