@@ -12,4 +12,5 @@ Rails.application.routes.draw do
   }
  
   resources :users, only: [:index, :show, :update, :destroy]
+  resources :rooms, only: [ :index, :show, :create ]
 end
