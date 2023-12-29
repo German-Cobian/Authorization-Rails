@@ -35,7 +35,7 @@ class UsersController < ApplicationController
   def destroy
 
     if current_user.admin?
-    user = User.find_by(id: params[:id])
+      user = User.find_by(id: params[:id])
 
       if user.nil?
         render status: 404, json: { error: 'User not found' }.to_json

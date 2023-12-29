@@ -8,7 +8,7 @@ class User < ApplicationRecord
   has_many :rooms, dependent: :destroy
   has_many :messages
 
-  validates :username, uniqueness: { case_sensitive: false }
+ 
   validates :email, presence: true
 
   #password is validated only upon creation
