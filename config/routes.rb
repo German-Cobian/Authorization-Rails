@@ -18,4 +18,12 @@ Rails.application.routes.draw do
     resources :participants, only: [:index, :create]
     resources :messages, only: [ :index, :create ]
   end
+
+  resources :conversations, only: [:index, :show, :create]
+
+  resources :conversations do
+    resources :locutors, only: [:index]
+    resources :exchanges, only: [:index, :create]
+  end
+
 end
